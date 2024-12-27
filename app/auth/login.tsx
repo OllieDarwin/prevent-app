@@ -13,7 +13,7 @@ export default function Login() {
     const [password, setPassword] = useState("")
 
     return (
-        <View className="flex justify-center items-center bg-white p-6 h-full pb-32">
+        <View className="flex justify-center items-center bg-white p-6 h-full">
             <View className="w-full">
                 <Text className="text-center text-gray-900 text-3xl font-bold">Welcome Back!</Text>
                 <Text className="text-center text-gray-500 mt-2">Sign in to access your account.</Text>

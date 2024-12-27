@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Input, InputField } from "../components/ui/input";
 import { Button, ButtonText } from "../components/ui/button";
 import { Link, LinkText } from "../components/ui/link";
@@ -166,35 +166,35 @@ export default function SignUp() {
 
     const handleNext = () => {
         switch (currentStep) {
-            case 'basic':
-                setCurrentStep('personal');
-                break;
-            case 'personal':
-                setCurrentStep('address');
-                break;
-            case 'address':
-                setCurrentStep('emergency');
-                break;
-            case 'emergency':
+            case "basic":
+                setCurrentStep("personal")
+                break
+            case "personal":
+                setCurrentStep("address")
+                break
+            case "address":
+                setCurrentStep("emergency")
+                break
+            case "emergency":
                 // TODO: DO SIGNUP
-                break;
+                break
         }
     };
 
     const handleBack = () => {
         switch (currentStep) {
-            case 'personal':
-                setCurrentStep('basic');
-                break;
-            case 'address':
-                setCurrentStep('personal');
-                break;
-            case 'emergency':
-                setCurrentStep('address');
-                break;
+            case "personal":
+                setCurrentStep("basic")
+                break
+            case "address":
+                setCurrentStep("personal")
+                break
+            case "emergency":
+                setCurrentStep("address")
+                break
             default:
-                router.back();
-                break;
+                router.back()
+                break
         }
     }; 
 
@@ -227,25 +227,21 @@ export default function SignUp() {
     } 
 
     return (
-        <ScrollView className="flex bg-white">
-            <View className="min-h-screen justify-center p-6">
-                <View className="w-full mx-auto">
-                    {renderCurrentStep()}
-                    {/* CONTINUE BUTTON */}
-                    <Button className={"bg-blue-600 rounded-full h-12 items-center justify-center mt-8 " + (isNextDisabled() && " bg-gray-300")} onPress={() => handleNext()} disabled={isNextDisabled()}>
-                        <ButtonText className={"text-white font-semibold text-sm " + (isNextDisabled() && " text-gray-500")}>{currentStep != "emergency" ? "Continue" : "Sign Up"}</ButtonText>
-                    </Button>
-                    {/* Alrady have an account? / Back */}
-                    <Link className="h-12 items-center justify-center mt-4" onPress={() => handleBack()}>
-                        {currentStep == "basic" ? <>
-                            <Text className="text-gray-900 text-sm">Already have an account? <LinkText className="text-sm text-blue-600">Log in</LinkText></Text>
-                        </> : <>
-                            <LinkText className="text-sm text-blue-600 no-underline">Back</LinkText>
-                        </>}
-                    </Link>
-                    {/* RENDER CURRENT STEP */}
-                </View>
+        <View className="flex justify-center items-center bg-white p-6 h-full">
+            <View className="px-8 w-full">
+                {renderCurrentStep()}
+                <Button className={"bg-blue-600 rounded-full h-12 items-center justify-center mt-8 " + (isNextDisabled() && " bg-gray-300")} onPress={() => handleNext()} disabled={isNextDisabled()}>
+                    <ButtonText className={"text-white font-semibold text-sm " + (isNextDisabled() && " text-gray-500")}>{currentStep != "emergency" ? "Continue" : "Sign Up"}</ButtonText>
+                </Button>
+                <Link className="h-12 items-center justify-center mt-4" onPress={() => handleBack()}>
+                    {currentStep == "basic" ? <>
+                        <Text className="text-gray-900 text-sm">Already have an account? <LinkText className="text-sm text-blue-600">Log in</LinkText></Text>
+                    </> : <>
+                        <LinkText className="text-sm text-blue-600 no-underline">Back</LinkText>
+                    </>}
+                </Link>
+                {/* RENDER CURRENT STEP */}
             </View>
-        </ScrollView>
+        </View>
     )
 }

@@ -3,6 +3,7 @@ import { Input, InputField } from "./ui/input";
 import { FlatList, Pressable, Text, View } from "react-native";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import 'react-native-get-random-values';
 
 interface Suggestion {
     name: string;
@@ -54,7 +55,6 @@ export default function MapboxSearchBox({ query, setQuery, setCity, setCountry, 
                     limit: 4,
                 },
             })
-            console.log(response)
             setResults(response.data.suggestions || [])
             setIsDropdownVisible(true)
         } catch (error) {
@@ -70,7 +70,6 @@ export default function MapboxSearchBox({ query, setQuery, setCity, setCountry, 
         setCountry(location.context.country.name)
         setPostalCode(location.context.postcode.name)
         setIsDropdownVisible(false)
-        console.log("Selected Place:", location)
     }
 
     return (

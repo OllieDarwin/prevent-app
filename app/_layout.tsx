@@ -7,13 +7,14 @@ import { GluestackUIProvider } from "./components/ui/gluestack-ui-provider";
 export default function RootLayout() {
   const router = useRouter()
 
-  useEffect(() => {
-    router.replace("/auth/login")
-  })
+  // useEffect(() => {
+  //   router.replace("/auth/login")
+  // })
 
   return (
     <GluestackUIProvider>
       <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="auth" options={{ headerShown: false }} />
       </Stack>
     </GluestackUIProvider>
