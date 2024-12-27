@@ -5,8 +5,11 @@ import { Button, ButtonText } from "../components/ui/button";
 import { Link, LinkText } from "../components/ui/link";
 import { useRouter } from "expo-router";
 import React from "react";
+import MapboxSearchBox from "../components/MapboxSearchBox";
 
 type SignUpStep = "basic" | "personal" | "address" | "emergency"
+
+// TODO: ADD PASSWORD VALIDATION
 
 export default function SignUp() {
     const router = useRouter()
@@ -80,7 +83,7 @@ export default function SignUp() {
                 <View>
                     <Text className="text-gray-700">Date of Birth</Text>
                     <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
-                        <InputField className="flex" placeholder="DD/MM/YYYY" placeholderTextColor="#9CA3AF" value={dateOfBirth} onChangeText={setDateOfBirth} keyboardType="number-pad" autoCapitalize="none" />
+                        <InputField className="flex" placeholder="DD/MM/YYYY" placeholderTextColor="#9CA3AF" value={dateOfBirth} onChangeText={setDateOfBirth} keyboardType="numbers-and-punctuation" autoCapitalize="none" />
                     </Input>
                 </View>
                 <View className="mt-4">
@@ -100,31 +103,29 @@ export default function SignUp() {
                 <Text className="text-center text-gray-500 mt-2">Please enter your address in the first box and select it in the drop-down menu.</Text>
             </View>
             <View className="mt-4">
-                <View>
+                <View className="z-[1000]">
                     <Text className="text-gray-700">Address</Text>
-                    <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
-                        <InputField className="flex" placeholder="Enter your address" placeholderTextColor="#9CA3AF" value={addressLine1} onChangeText={setAddressLine1} keyboardType="default" autoCapitalize="none" />
-                    </Input>
+                    <MapboxSearchBox query={addressLine1} setQuery={setAddressLine1} setCity={setCity} setCountry={setCountry} setPostalCode={setPostalCode} />
                 </View>
-                <View className="mt-4">
+                <View className="mt-4 z-0">
                     <Text className="text-gray-700">Apartment, suite, etc. (optional)</Text>
                     <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
                         <InputField className="flex" placeholder="Enter your apartment number, suite, etc. (optional)" placeholderTextColor="#9CA3AF" value={addressLine2} onChangeText={setAddressLine2} keyboardType="default" autoCapitalize="none" />
                     </Input>
                 </View>
-                <View className="mt-4">
+                <View className="mt-4 z-0">
                     <Text className="text-gray-700">City</Text>
                     <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
                         <InputField className="flex" placeholder="Enter your city" placeholderTextColor="#9CA3AF" value={city} onChangeText={setCity} keyboardType="default" autoCapitalize="none" />
                     </Input>
                 </View>
-                <View className="mt-4">
+                <View className="mt-4 z-0">
                     <Text className="text-gray-700">Country</Text>
                     <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
                         <InputField className="flex" placeholder="Enter your country" placeholderTextColor="#9CA3AF" value={country} onChangeText={setCountry} keyboardType="default" autoCapitalize="none" />
                     </Input>
                 </View>
-                <View className="mt-4">
+                <View className="mt-4 z-0">
                     <Text className="text-gray-700">Postcode</Text>
                     <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
                         <InputField className="flex" placeholder="Enter your postal code" placeholderTextColor="#9CA3AF" value={postalCode} onChangeText={setPostalCode} keyboardType="default" autoCapitalize="none" />
