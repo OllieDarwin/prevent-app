@@ -6,6 +6,7 @@ import { Link, LinkText } from "../components/ui/link";
 import { useRouter } from "expo-router";
 import React from "react";
 import MapboxSearchBox from "../components/MapboxSearchBox";
+import { doCreateUserWithEmailAndPassword, getUserRole } from "../firebase/auth";
 
 type SignUpStep = "basic" | "personal" | "address" | "emergency"
 
@@ -14,6 +15,8 @@ type SignUpStep = "basic" | "personal" | "address" | "emergency"
 export default function SignUp() {
     const router = useRouter()
     const [currentStep, setCurrentStep] = useState<SignUpStep>("basic")
+
+    const [isRegistering, setIsRegistering] = useState(false)
 
     // Basic Information
     const [firstName, setFirstName] = useState("")
@@ -45,17 +48,19 @@ export default function SignUp() {
                 <Text className="text-center text-gray-500 mt-2">It's free and only takes a minute.</Text>
             </View>
             <View className="mt-4">
-                <View>
-                    <Text className="text-gray-700">First Name</Text>
-                    <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
-                        <InputField className="flex" placeholder="Enter your first name" placeholderTextColor="#9CA3AF" value={firstName} onChangeText={setFirstName} keyboardType="default" autoCapitalize="none" />
-                    </Input>
-                </View>
-                <View className="mt-4">
-                    <Text className="text-gray-700">Last Name</Text>
-                    <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
-                        <InputField className="flex" placeholder="Enter your last name" placeholderTextColor="#9CA3AF" value={lastName} onChangeText={setLastName} keyboardType="default" autoCapitalize="none" />
-                    </Input>
+                <View className="flex items-center justify-center flex-row gap-2">
+                    <View className="w-[141px]">
+                        <Text className="text-gray-700">First Name</Text>
+                        <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
+                            <InputField className="flex" placeholder="First name" placeholderTextColor="#9CA3AF" value={firstName} onChangeText={setFirstName} keyboardType="default" autoCapitalize="none" />
+                        </Input>
+                    </View>
+                    <View className="w-[141px]">
+                        <Text className="text-gray-700">Last Name</Text>
+                        <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
+                            <InputField className="flex" placeholder="Last name" placeholderTextColor="#9CA3AF" value={lastName} onChangeText={setLastName} keyboardType="default" autoCapitalize="none" />
+                        </Input>
+                    </View>
                 </View>
                 <View className="mt-4">
                     <Text className="text-gray-700">Email</Text>
@@ -80,7 +85,21 @@ export default function SignUp() {
                 <Text className="text-center text-gray-500 mt-2">Tell us a bit more about yourself</Text>
             </View>
             <View className="mt-4">
-                <View>
+                <View className="flex items-center justify-center flex-row gap-2">
+                    <View className="w-[141px]">
+                        <Text className="text-gray-700">Account Type</Text>
+                        <Button className={"rounded-full h-12 items-center justify-center mt-2 " + (role == "user" ? "bg-blue-600" : "bg-gray-300")} onPress={() => setRole("user")}>
+                            <ButtonText className={"font-semibold text-sm " + (role == "user" ? "text-white" : "text-gray-500")}>User</ButtonText>
+                        </Button>
+                    </View>
+                    <View className="w-[141px]">
+                        <Text className="text-gray-700"></Text>
+                        <Button className={" rounded-full h-12 items-center justify-center mt-2 " + (role == "doctor" ? "bg-blue-600" : "bg-gray-300")} onPress={() => setRole("doctor")}>
+                            <ButtonText className={"font-semibold text-sm " + (role == "doctor" ? "text-white" : "text-gray-500")}>Doctor</ButtonText>
+                        </Button>
+                    </View>
+                </View>
+                <View className="mt-4">
                     <Text className="text-gray-700">Date of Birth</Text>
                     <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
                         <InputField className="flex" placeholder="DD/MM/YYYY" placeholderTextColor="#9CA3AF" value={dateOfBirth} onChangeText={setDateOfBirth} keyboardType="numbers-and-punctuation" autoCapitalize="none" />
@@ -164,6 +183,42 @@ export default function SignUp() {
         </>
     )
 
+    const handleSignUp = async () => {
+        const userData = {
+            firstName,
+            lastName,
+            dateOfBirth,
+            phone,
+            role,
+            address: {
+                addressLine1,
+                addressLine2,
+                city,
+                country,
+                postalCode
+            },
+            emergencyContact: {
+                name: emergencyName,
+                phone: emergencyPhone,
+                relationship: emergencyRelation
+            }
+        }
+        try {
+            if(!isRegistering) {
+                setIsRegistering(true)
+                const userCredential = await doCreateUserWithEmailAndPassword(userData, role, email, password)
+                const userRole = await getUserRole(userCredential.user.uid)
+                if (userRole == "user") {
+                    router.replace("/user")
+                } else {
+                    router.replace("/doctor")
+                }
+            }
+        } catch (error) {
+            console.error("Error registering an account", error)
+        }
+    }
+
     const handleNext = () => {
         switch (currentStep) {
             case "basic":
@@ -177,6 +232,7 @@ export default function SignUp() {
                 break
             case "emergency":
                 // TODO: DO SIGNUP
+                handleSignUp()
                 break
         }
     };

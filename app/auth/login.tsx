@@ -4,6 +4,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { Button, ButtonText } from "../components/ui/button";
 import { Link, LinkText } from "../components/ui/link";
 import { Input, InputField } from "../components/ui/input";
+import { doSignInWithEmailAndPassword, getUserRole } from "../firebase/auth";
 
 // TODO: Add user authentication and redirect to relevant dashboard
 
@@ -11,6 +12,16 @@ export default function Login() {
     const router = useRouter()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
+    const handleLogin = async () => {
+        const userCredential = await doSignInWithEmailAndPassword(email, password)
+        const role = await getUserRole(userCredential.user.uid)
+        if (role == "user") {
+            router.replace("/user")
+        } else {
+            router.replace("/doctor")
+        }
+    }
 
     return (
         <View className="flex justify-center items-center bg-white p-6 h-full">
@@ -31,11 +42,11 @@ export default function Login() {
                         <InputField className="flex" placeholder="Enter your password" placeholderTextColor="#9CA3AF" value={password} onChangeText={setPassword} secureTextEntry />
                     </Input>
                 </View>
-                <Button className="bg-blue-600 rounded-full h-12 items-center justify-center mt-8" onPress={() => console.log("Pressed")}>
+                <Button className="bg-blue-600 rounded-full h-12 items-center justify-center mt-8" onPress={() => handleLogin()}>
                     <ButtonText className="text-white font-semibold text-sm">Sign In</ButtonText>
                 </Button>
             </View>
-            <Link className="h-12 items-center justify-center mt-4" onPress={() => router.push("/auth/signup")}>
+            <Link className="h-12 items-center justify-center mt-4" onPress={() => router.replace("/auth/signup")}>
                 <Text className="text-gray-900 text-sm">Don't have an account? <LinkText className="text-sm text-blue-600">Sign up</LinkText></Text>
             </Link>
         </View>

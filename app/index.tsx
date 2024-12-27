@@ -2,9 +2,19 @@ import { View, Text, ImageBackground, Image } from "react-native";
 import "../global.css"
 import { Button, ButtonText } from "./components/ui/button";
 import { useRouter } from "expo-router";
+import { useSession } from "./contexts/AuthContext";
+import { useEffect } from "react";
 
 export default function Home() {
     const router = useRouter()
+
+    const { userLoggedIn } = useSession()
+    
+    useEffect(() => {
+        if (userLoggedIn) {
+        router.replace("/user")
+        }
+    })
 
     return (
         <ImageBackground source={require("../assets/images/hero-bg.jpg")} resizeMode="cover" className="flex-1 flex-col justify-between w-full h-full">
