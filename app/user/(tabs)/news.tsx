@@ -46,9 +46,15 @@ const defaultArticles = [
     }
 ]
 
+interface ArticleType {
+    title: string
+    description: string
+    url: string
+}
+
 export default function NewsTab() {
 
-    const [articles, setArticles] = useState([])
+    const [articles, setArticles] = useState<ArticleType[]>([])
     const [loading, setLoading] = useState(true)
 
     const NEWSAPI_API_KEY = process.env.EXPO_PUBLIC_NEWSAPI_API_KEY
@@ -87,9 +93,9 @@ export default function NewsTab() {
 
     return (
         <ScrollView className="py-8">
-            <Text className="font-bold text-4xl ml-4">News:</Text>
-            {articles.map((article: {title: string, description: string, url: string, urlToImage: string}) => (
-                <View className="bg-white rounded-lg mt-4 mx-4 p-4">
+            <Text className="font-bold text-4xl ml-4 ">News:</Text>
+            {articles.map((article: ArticleType) => (
+                <View className="bg-white rounded-lg mt-4 mx-4 p-4" key={article.title}>
                     <Text className="font-bold text-2xl">{article.title}</Text>
                     <Text className="font-normal">{article.description}</Text>
                     <Link className="" onPress={() => handleOpenArticle(article.url)}>

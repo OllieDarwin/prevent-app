@@ -2,7 +2,7 @@ import { Stack, useRouter } from "expo-router";
 
 import "../global.css";
 import { GluestackUIProvider } from "./components/ui/gluestack-ui-provider";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider } from "../contexts/AuthContext";
 
 export default function RootLayout() {
   return (

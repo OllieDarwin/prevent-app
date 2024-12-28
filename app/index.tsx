@@ -3,7 +3,7 @@ import "../global.css"
 import { Button, ButtonText } from "./components/ui/button";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
-import { useAuth } from "./contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Home() {
     const router = useRouter()

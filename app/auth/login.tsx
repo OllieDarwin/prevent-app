@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { Button, ButtonText } from "../components/ui/button";
 import { Link, LinkText } from "../components/ui/link";
 import { Input, InputField } from "../components/ui/input";
-import { doSignInWithEmailAndPassword, getUserRole } from "../firebase/auth";
+import { doSignInWithEmailAndPassword, getUserRole } from "../../firebase/auth";
 
 // TODO: Add user authentication and redirect to relevant dashboard
 

@@ -6,7 +6,7 @@ import { Link, LinkText } from "../components/ui/link";
 import { useRouter } from "expo-router";
 import React from "react";
 import MapboxSearchBox from "../components/MapboxSearchBox";
-import { doCreateUserWithEmailAndPassword, getUserRole } from "../firebase/auth";
+import { doCreateUserWithEmailAndPassword, getUserRole } from "../../firebase/auth";
 
 type SignUpStep = "basic" | "personal" | "address" | "emergency"
 

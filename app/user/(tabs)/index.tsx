@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import "../../../global.css"
 import { useRouter } from "expo-router";
-import { useAuth } from "@/app/contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function UserDashboard() {
     const router = useRouter()
