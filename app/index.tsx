@@ -2,17 +2,17 @@ import { View, Text, ImageBackground, Image } from "react-native";
 import "../global.css"
 import { Button, ButtonText } from "./components/ui/button";
 import { useRouter } from "expo-router";
-import { useSession } from "./contexts/AuthContext";
 import { useEffect } from "react";
+import { useAuth } from "./contexts/AuthContext";
 
 export default function Home() {
     const router = useRouter()
 
-    const { userLoggedIn } = useSession()
+    const { userLoggedIn } = useAuth()
     
     useEffect(() => {
         if (userLoggedIn) {
-        router.replace("/user")
+            router.replace("/user")
         }
     })
 
@@ -22,10 +22,10 @@ export default function Home() {
                 <Image source={require("../assets/images/logo-white.png")} resizeMode="contain" className="h-16"></Image>
             </View>
             <View className="p-4 mb-8">
-                <Button className="bg-blue-600 rounded-full h-12 items-center justify-center" onPress={() => router.replace("/auth/login")}>
+                <Button className="bg-blue-600 rounded-full h-12 items-center justify-center" onPress={() => router.push("/auth/login")}>
                     <ButtonText className="text-white font-semibold">Log In</ButtonText>
                 </Button>
-                <Button className="bg-gray-400 rounded-full h-12 items-center justify-center mt-2" onPress={() => router.replace("/auth/signup")}>
+                <Button className="bg-gray-400 rounded-full h-12 items-center justify-center mt-2" onPress={() => router.navigate("/auth/signup")}>
                     <ButtonText className="text-white font-semibold">Create an Account</ButtonText>
                 </Button>
             </View>

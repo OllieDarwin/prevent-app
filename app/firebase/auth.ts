@@ -7,7 +7,7 @@ export interface UserProfile {
     lastName?: string;
     dateOfBirth?: string;
     phone?: string;
-    role: "user" | "doctor";
+    role?: "user" | "doctor";
     address?: {
         addressLine1?: string;
         addressLine2?: string;
@@ -68,9 +68,9 @@ export const fetchUserProfile = async (userId: string | null) => {
         return null
     }
     try {
-        const role = await getUserRole(userId)
         const userDocRef = doc(db, "users", userId)
         const userSnapshot = await getDoc(userDocRef)
+
         const doctorDocRef = doc(db, "doctors", userId)
         const doctorSnapshot = await getDoc(doctorDocRef)
 
@@ -101,7 +101,7 @@ export const getUserRole = async (userId: string | null) => {
 
         throw new Error("User not found.")
     } catch (error) {
-        console.error("Error fetching user profile:", error)
+        console.error("Error fetching user role:", error)
         return null
     }
 }

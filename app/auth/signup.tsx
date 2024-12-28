@@ -207,6 +207,7 @@ export default function SignUp() {
             if(!isRegistering) {
                 setIsRegistering(true)
                 const userCredential = await doCreateUserWithEmailAndPassword(userData, role, email, password)
+                if(!userCredential) return
                 const userRole = await getUserRole(userCredential.user.uid)
                 if (userRole == "user") {
                     router.replace("/user")
@@ -249,7 +250,7 @@ export default function SignUp() {
                 setCurrentStep("address")
                 break
             default:
-                router.back()
+                router.replace("/auth/login")
                 break
         }
     }; 

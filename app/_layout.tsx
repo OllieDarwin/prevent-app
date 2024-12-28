@@ -1,21 +1,19 @@
 import { Stack, useRouter } from "expo-router";
-import { useEffect } from "react";
 
 import "../global.css";
 import { GluestackUIProvider } from "./components/ui/gluestack-ui-provider";
-import { SessionProvider } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
 export default function RootLayout() {
   return (
-    <SessionProvider>
+    <AuthProvider>
       <GluestackUIProvider>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="auth" options={{ headerShown: false }} />
-          <Stack.Screen name="user" options={{ headerShown: false }} />
-          <Stack.Screen name="doctor" options={{ headerShown: false }} />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="auth/login" options={{ headerShown: true, headerTitle: "Login", headerBackTitle: "Back" }} />
+          <Stack.Screen name="auth/signup" options={{ headerShown: true, headerTitle: "Create an Account", headerBackTitle: "Back" }} />
         </Stack>
       </GluestackUIProvider>
-    </SessionProvider>
+    </AuthProvider>
   )
 }

@@ -1,5 +1,9 @@
-import { Stack } from "expo-router";
+import { Stack } from "expo-router"
 
-export default function UserLayout() {
-    return <Stack />
+export default function DoctorDashboardLayout() {
+    return (
+        <Stack>
+            <Stack.Screen name="index" options={{headerTitle: "Doctor Dashboard"}} />
+        </Stack>
+    )
 }

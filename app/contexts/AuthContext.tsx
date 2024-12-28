@@ -13,17 +13,15 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-export function useSession() {
+export function useAuth() {
     const context = useContext(AuthContext)
-    if(process.env.NODE_ENV !== "production") {
-        if (context === undefined) {
-            throw new Error("useSession must be wrapped inside a <SessionProvider />")
-        }
+    if (context === undefined) {
+        throw new Error("useAuth must be wrapped inside a <AuthProvider />")
     }
     return context
 }
 
-export function SessionProvider({children}: { children: ReactNode }) {
+export function AuthProvider({children}: { children: ReactNode }) {
     const [currentUser, setCurrentUser] = useState<ExtendedUser | null>(null)
     const [userLoggedIn, setUserLoggedIn] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
@@ -31,7 +29,7 @@ export function SessionProvider({children}: { children: ReactNode }) {
     useEffect(() => {
             const unsubscribe = onAuthStateChanged(auth, initializeUser)
             return unsubscribe
-    }, []);
+    }, [])
 
     async function initializeUser(user: ExtendedUser | null) {
         if (user) {
