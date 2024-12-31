@@ -1,9 +1,10 @@
-import { Stack } from "expo-router"
+import { Tabs } from "expo-router";
+import "@/global.css";
 
 export default function DoctorDashboardLayout() {
     return (
-        <Stack>
-            <Stack.Screen name="index" options={{headerTitle: "Doctor Dashboard"}} />
-        </Stack>
+        <Tabs>
+            <Tabs.Screen name="(tabs)/index" options={{title: "Doctor Dashboard"}} />
+        </Tabs>
     )
 }

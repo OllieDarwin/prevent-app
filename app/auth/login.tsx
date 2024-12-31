@@ -16,9 +16,12 @@ export default function Login() {
     const handleLogin = async () => {
         const userCredential = await doSignInWithEmailAndPassword(email, password)
         const role = await getUserRole(userCredential.user.uid)
-        if (role == "user") {
+        console.log(role)
+        if (role === "user") {
+            console.log("redirect to user page")
             router.replace("/user")
         } else {
+            console.log("redirect to doctor page")
             router.replace("/doctor")
         }
     }

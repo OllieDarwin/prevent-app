@@ -209,7 +209,7 @@ export default function SignUp() {
                 const userCredential = await doCreateUserWithEmailAndPassword(userData, role, email, password)
                 if(!userCredential) return
                 const userRole = await getUserRole(userCredential.user.uid)
-                if (userRole == "user") {
+                if (userRole === "user") {
                     router.replace("/user")
                 } else {
                     router.replace("/doctor")
