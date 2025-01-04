@@ -21,6 +21,7 @@ export interface UserProfile {
         relationship?: string;
     };
     id?: string;
+    email?: string;
 }
 
 /**
@@ -221,10 +222,10 @@ export const getUserFromId = async (userId: string) => {
             return userSnapshot.data() as User
         } else {
             console.error("User not found.")
-            return []
+            return {id: ""}
         }
     } catch (error) {
         console.error("Error fetching user:", error)
-        return []
+        return {id: ""}
     }
 }
