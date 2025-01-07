@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { Input, InputField } from "../components/ui/input";
 import { Button, ButtonText } from "../components/ui/button";
 import { Link, LinkText } from "../components/ui/link";
@@ -48,14 +48,14 @@ export default function SignUp() {
                 <Text className="text-center text-gray-500 mt-2">It's free and only takes a minute.</Text>
             </View>
             <View className="mt-4">
-                <View className="flex items-center justify-center flex-row gap-2">
-                    <View className="w-[141px]">
+                <View className="flex items-center justify-center flex-row gap-2 mx-1">
+                    <View className="w-[50%]">
                         <Text className="text-gray-700">First Name</Text>
                         <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
                             <InputField className="flex" placeholder="First name" placeholderTextColor="#9CA3AF" value={firstName} onChangeText={setFirstName} keyboardType="default" autoCapitalize="none" />
                         </Input>
                     </View>
-                    <View className="w-[141px]">
+                    <View className="w-[50%]">
                         <Text className="text-gray-700">Last Name</Text>
                         <Input className="h-12 px-1 border border-gray-300 rounded-lg justify-center mt-2" variant="outline" size="sm" isDisabled={false} isInvalid={false} isReadOnly={false} >
                             <InputField className="flex" placeholder="Last name" placeholderTextColor="#9CA3AF" value={lastName} onChangeText={setLastName} keyboardType="default" autoCapitalize="none" />
@@ -85,14 +85,14 @@ export default function SignUp() {
                 <Text className="text-center text-gray-500 mt-2">Tell us a bit more about yourself</Text>
             </View>
             <View className="mt-4">
-                <View className="flex items-center justify-center flex-row gap-2">
-                    <View className="w-[141px]">
+                <View className="flex items-center justify-center flex-row gap-2 mx-1">
+                    <View className="w-[50%]">
                         <Text className="text-gray-700">Account Type</Text>
                         <Button className={"rounded-full h-12 items-center justify-center mt-2 " + (role == "user" ? "bg-blue-600" : "bg-gray-300")} onPress={() => setRole("user")}>
                             <ButtonText className={"font-semibold text-sm " + (role == "user" ? "text-white" : "text-gray-500")}>User</ButtonText>
                         </Button>
                     </View>
-                    <View className="w-[141px]">
+                    <View className="w-[50%]">
                         <Text className="text-gray-700"></Text>
                         <Button className={" rounded-full h-12 items-center justify-center mt-2 " + (role == "doctor" ? "bg-blue-600" : "bg-gray-300")} onPress={() => setRole("doctor")}>
                             <ButtonText className={"font-semibold text-sm " + (role == "doctor" ? "text-white" : "text-gray-500")}>Doctor</ButtonText>
@@ -232,7 +232,6 @@ export default function SignUp() {
                 setCurrentStep("emergency")
                 break
             case "emergency":
-                // TODO: DO SIGNUP
                 handleSignUp()
                 break
         }
@@ -250,7 +249,7 @@ export default function SignUp() {
                 setCurrentStep("address")
                 break
             default:
-                router.replace("/auth/login")
+                router.push("/auth/login")
                 break
         }
     }; 
@@ -284,21 +283,22 @@ export default function SignUp() {
     } 
 
     return (
-        <View className="flex justify-center items-center bg-white p-6 h-full">
-            <View className="px-8 w-full">
-                {renderCurrentStep()}
-                <Button className={"bg-blue-600 rounded-full h-12 items-center justify-center mt-8 " + (isNextDisabled() && " bg-gray-300")} onPress={() => handleNext()} disabled={isNextDisabled()}>
-                    <ButtonText className={"text-white font-semibold text-sm " + (isNextDisabled() && " text-gray-500")}>{currentStep != "emergency" ? "Continue" : "Sign Up"}</ButtonText>
-                </Button>
-                <Link className="h-12 items-center justify-center mt-4" onPress={() => handleBack()}>
-                    {currentStep == "basic" ? <>
-                        <Text className="text-gray-900 text-sm">Already have an account? <LinkText className="text-sm text-blue-600">Log in</LinkText></Text>
-                    </> : <>
-                        <LinkText className="text-sm text-blue-600 no-underline">Back</LinkText>
-                    </>}
-                </Link>
-                {/* RENDER CURRENT STEP */}
+        <ScrollView className="bg-gray-100 p-4">
+            <View className="flex justify-center items-center min-h-full">
+                <View className="bg-white rounded-lg px-4 py-16 w-full">
+                    {renderCurrentStep()}
+                    <Button className={"bg-blue-600 rounded-full h-12 items-center justify-center mt-8 w-full " + (isNextDisabled() && " bg-gray-300")} onPress={() => handleNext()} disabled={isNextDisabled()}>
+                        <ButtonText className={"text-white font-semibold text-sm " + (isNextDisabled() && " text-gray-500")}>{currentStep != "emergency" ? "Continue" : "Sign Up"}</ButtonText>
+                    </Button>
+                    <Link className="h-12 items-center justify-center mt-4" onPress={() => handleBack()}>
+                        {currentStep == "basic" ? <>
+                            <Text className="text-gray-900 text-sm">Already have an account? <LinkText className="text-sm text-blue-600">Log in</LinkText></Text>
+                        </> : <>
+                            <LinkText className="text-sm text-blue-600 no-underline">Back</LinkText>
+                        </>}
+                    </Link>
+                </View>
             </View>
-        </View>
+        </ScrollView>
     )
 }
