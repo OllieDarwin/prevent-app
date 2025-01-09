@@ -47,7 +47,7 @@ export default function UserDashboard() {
                     <Text className="font-semibold text-2xl">You are a suspected case.</Text>
                     <Text className="text-lg mt-2">We have decided that you may have contracted an illness that must be urgently treated.</Text>
                     <Text className="text-lg mt-2">We suggest you book an appointment as soon as possible.</Text>
-                    <Button className="bg-white mt-2" onPress={() => router.push("/user/home/book")}>
+                    <Button className="bg-[#f9ebfc] mt-2" onPress={() => router.push("/user/home/book")}>
                         <ButtonText>Book an appointment</ButtonText>
                     </Button>
                 </View>
