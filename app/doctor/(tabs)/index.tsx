@@ -14,12 +14,8 @@ export default function UserDashboard() {
             <View className="p-4 bg-white rounded-lg">
                 <Text className="font-semibold text-2xl">Welcome back, {currentUser.firstName}!</Text>
                 <Text className=" text-lg">Hjifiowivemfv odwckmowco mdwokmvw owkmdcowk dkvok.</Text>
-            </View>
-            <View className="p-4 bg-white rounded-lg mt-4">
-                <Text className="font-semibold text-2xl">Upcoming appointments:</Text>
-                {/* SHOW APPOINTMENT BOOKINGS */}
-                <TouchableOpacity onPress={() => router.push("/doctor/(tabs)/appointments")}>
-                    <Text className="text-blue-600 underline">See more</Text>
+                <TouchableOpacity onPress={() => router.push("/doctor/appointments")}>
+                    <Text className="text-blue-600 underline">See upcoming appointments</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>

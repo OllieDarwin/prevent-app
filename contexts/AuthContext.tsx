@@ -9,6 +9,7 @@ interface AuthContextType {
     currentUser: ExtendedUser | null
     userLoggedIn: boolean
     isLoading: boolean
+    reloadUser: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -43,8 +44,24 @@ export function AuthProvider({children}: { children: ReactNode }) {
         setIsLoading(false)
     }
 
+    // Function to reload the current user
+    async function reloadUser() {
+        if (auth.currentUser) {
+            try {
+                await auth.currentUser.reload();
+                const updatedUser = auth.currentUser;
+                if (updatedUser) {
+                    const profile = await fetchUserProfile(updatedUser.uid);
+                    setCurrentUser({ ...updatedUser, ...profile });
+                }
+            } catch (error) {
+                console.error("Failed to reload user:", error);
+            }
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{currentUser, userLoggedIn, isLoading}}>
+        <AuthContext.Provider value={{currentUser, userLoggedIn, isLoading, reloadUser}}>
          {!isLoading && children}
         </AuthContext.Provider>
     )

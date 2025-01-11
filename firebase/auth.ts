@@ -21,12 +21,19 @@ export interface UserProfile {
         relationship?: string;
     };
     id?: string;
-    email?: string;
     infectionState?: {
         state: "healthy" | "suspected" | "confirmed";
         changedBy: string;
         changedAt: Timestamp;
-    }
+    };
+    availability?: Timestamp[];
+    appointments: {
+        patientId?: string;
+        doctorId?: string;
+        facilityId?: string;
+        time: Timestamp;
+        endTime: Timestamp;
+    }[]
 }
 
 /**
@@ -82,9 +89,9 @@ export const fetchUserProfile = async (userId: string | null) => {
         const doctorSnapshot = await getDoc(doctorDocRef)
 
         if (userSnapshot.exists()) {
-            return userSnapshot.data()
+            return userSnapshot.data() as UserProfile
         } else if (doctorSnapshot.exists()) {
-            return doctorSnapshot.data()
+            return doctorSnapshot.data() as UserProfile
         } else {
             console.error("No user data found!")
             return null
@@ -98,7 +105,18 @@ export const fetchUserProfile = async (userId: string | null) => {
 export const updateUserProfile = async (userId: string, data: Partial<User>) => {
     try {
         const userDocRef = doc(db, "users", userId)
-        await updateDoc(userDocRef, data)
+        const userSnapshot = await getDoc(userDocRef)
+
+        const doctorDocRef = doc(db, "doctors", userId)
+        const doctorSnapshot = await getDoc(doctorDocRef)
+
+        if (userSnapshot.exists()) {
+            await updateDoc(userDocRef, data)
+        } else if (doctorSnapshot.exists()) {
+            await updateDoc(doctorDocRef, data)
+        } else {
+            console.error("Profile wan't found.")
+        }
     } catch (error) {
         console.error("Error updating user profile:", error)
     }
@@ -157,21 +175,22 @@ export const searchForUsers = async (input: string) => {
     }
 }
 
-export const getUserFromId = async (userId: string) => {
-    try {
-        const userDoc = doc(db, "users", userId)
-        const userSnapshot = await getDoc(userDoc)
-        if (userSnapshot.exists()) {
-            return userSnapshot.data() as User
-        } else {
-            console.error("User not found.")
-            return {id: ""}
-        }
-    } catch (error) {
-        console.error("Error fetching user:", error)
-        return {id: ""}
-    }
-}
+// export const getUserFromId = async (userId: string) => {
+//     try {
+//         const userDoc = doc(db, "users", userId)
+//         const userSnapshot = await getDoc(userDoc)
+//         if (userSnapshot.exists()) {
+//             return userSnapshot.data() as User
+//         } else {
+//             console.error("User not found.")
+//             return {id: ""}
+//         }
+//     } catch (error) {
+//         console.error("Error fetching user:", error)
+//         return {id: ""}
+//     }
+// }
+
 export const setInfectionState = async (userId: string, currentUserId: string, state: "healthy" | "suspected" | "confirmed") => {
     try {
         await updateUserProfile(userId, {infectionState: {state, changedBy: currentUserId, changedAt: Timestamp.fromDate(new Date())}})

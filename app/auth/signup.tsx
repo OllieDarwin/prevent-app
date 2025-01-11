@@ -7,6 +7,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import MapboxSearchBox from "../components/MapboxSearchBox";
 import { doCreateUserWithEmailAndPassword, getUserRole } from "../../firebase/auth";
+import { Timestamp } from "firebase/firestore";
 
 type SignUpStep = "basic" | "personal" | "address" | "emergency"
 
@@ -184,6 +185,7 @@ export default function SignUp() {
     )
 
     const handleSignUp = async () => {
+        const state: "healthy" | "suspected" | "confirmed" = "healthy"
         const userData = {
             firstName,
             lastName,
@@ -201,7 +203,13 @@ export default function SignUp() {
                 name: emergencyName,
                 phone: emergencyPhone,
                 relationship: emergencyRelation
-            }
+            },
+            infectionState: {
+                state,
+                changedBy: "HHI7p8Bc3ONQ3wv1lqkQrmdio7y1",
+                changedAt: Timestamp.fromDate(new Date())
+            },
+            appointments: []
         }
         try {
             if(!isRegistering) {
@@ -210,7 +218,7 @@ export default function SignUp() {
                 if(!userCredential) return
                 const userRole = await getUserRole(userCredential.user.uid)
                 if (userRole === "user") {
-                    router.replace("/user")
+                    router.replace("/user/home")
                 } else {
                     router.replace("/doctor")
                 }

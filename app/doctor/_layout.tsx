@@ -1,12 +1,48 @@
 import { Tabs } from "expo-router";
 import "@/global.css";
+import { BookUser, CalendarRange, House } from "lucide-react-native";
 
 export default function DoctorDashboardLayout() {
     return (
-        <Tabs>
-            <Tabs.Screen name="(tabs)/index" options={{ title: "Home" }} />
-            <Tabs.Screen name="(tabs)/appointments/index" options={{ title: "Appointments" }} />
-            <Tabs.Screen name="(tabs)/users" options={{ title: "Users", headerShown: false }} />
+        <Tabs
+            screenOptions={{
+                tabBarStyle: {
+                    position: "absolute",
+                    bottom: 0,
+                    paddingBottom: 10,
+                    paddingTop: 6,
+                },
+                animation: "shift"
+            }}
+        >
+            <Tabs.Screen 
+                name="(tabs)/index" 
+                options={{ 
+                    title: "Home", 
+                    tabBarIcon: ({ color, focused }) => (
+                        <House color={color} size={24} style={focused ? { opacity: 1 } : { opacity: 0.7 }} />
+                    )
+                }} 
+            />
+            <Tabs.Screen 
+                name="(tabs)/appointments/index" 
+                options={{ 
+                    title: "Appointments", 
+                    tabBarIcon: ({ color, focused }) => (
+                        <CalendarRange color={color} size={24} style={focused ? { opacity: 1 } : { opacity: 0.7 }} />
+                    )
+                }} 
+            />
+            <Tabs.Screen 
+                name="(tabs)/users" 
+                options={{ 
+                    title: "Users", 
+                    headerShown: false ,
+                    tabBarIcon: ({ color, focused }) => (
+                        <BookUser color={color} size={24} style={focused ? { opacity: 1 } : { opacity: 0.7 }} />
+                    )
+                }}
+            />
         </Tabs>
     )
 }

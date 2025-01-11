@@ -1,6 +1,6 @@
 import InfectionStateDisplay from "@/app/components/InfectionStateDisplay";
 import { useAuth } from "@/contexts/AuthContext";
-import { getUserFromId, setInfectionState, User } from "@/firebase/auth";
+import { fetchUserProfile, setInfectionState, User } from "@/firebase/auth";
 import { useSearchParams } from "expo-router/build/hooks";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -45,12 +45,13 @@ export default function UserProfile() {
     }
 
     // Fetch user data
+    // TODO: ADD ERROR HANDLING HERE
     useEffect(() => {
         const fetchUser = async () => {
             if (!userId) return
 
             setLoading(true)
-            const userProfile = await getUserFromId(userId)
+            const userProfile = await fetchUserProfile(userId)
             if (userProfile) {
                 setUser(userProfile)
             }
