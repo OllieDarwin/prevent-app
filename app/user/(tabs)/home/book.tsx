@@ -45,7 +45,7 @@ export default function BookAppointment() {
 
 
     const toast = useToast()
-    const [toastId, setToastId] = React.useState("0")
+    const [toastId, setToastId] = useState("0")
     
     const handleToast = () => {
         if(!toast.isActive(toastId)) {
