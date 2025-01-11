@@ -43,14 +43,13 @@ export default function MapboxSearchBox({ query, setQuery, setCity, setCountry, 
             return
         }
 
-        const MAPBOX_ACCESS_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN
         const SEARCH_BOX_URL = "https://api.mapbox.com/search/searchbox/v1/suggest"
 
         try {
             const response = await axios.get(SEARCH_BOX_URL, {
                 params: {
                     q: input,
-                    access_token: MAPBOX_ACCESS_TOKEN,
+                    access_token: process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN,
                     session_token: sessionToken,
                     limit: 4,
                 },

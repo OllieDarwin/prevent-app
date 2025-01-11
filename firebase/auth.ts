@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "./firebase-config";
-import { collection, doc, getDoc, setDoc, query, orderBy, startAt, endAt, getDocs, updateDoc, Timestamp } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, query, orderBy, startAt, endAt, getDocs, updateDoc, Timestamp, where } from "firebase/firestore";
 
 export interface UserProfile {
     firstName?: string;
@@ -208,5 +208,25 @@ export const getFullName = async (userId: string) => {
         throw new Error("User profile wasn't found.")
     } catch (error) {
         console.error("Error fetching full name:", error)
+    }
+}
+
+export const getConfirmedCases = async () => {
+    try {
+        const confirmedCasesQuery = query(collection(db, "users"), where("infectionState.state", "==", "confirmed"))
+        const confirmedCasesSnapshot = await getDocs(confirmedCasesQuery)
+
+        const resultsMap = new Map<string, User>()
+        confirmedCasesSnapshot.forEach((doc) => {
+            resultsMap.set(doc.id, {
+                id: doc.id,
+                ...(doc.data() as UserProfile)
+            })
+        })
+
+        return [ ...resultsMap.values() ]
+    } catch (error) {
+        console.error("Error fetching confirmed cases:", error)
+        return []
     }
 }

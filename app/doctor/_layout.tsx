@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import "@/global.css";
-import { BookUser, CalendarRange, House } from "lucide-react-native";
+import { BookUser, CalendarRange, ChartColumn, House } from "lucide-react-native";
 
 export default function DoctorDashboardLayout() {
     return (
@@ -30,6 +30,15 @@ export default function DoctorDashboardLayout() {
                     title: "Appointments", 
                     tabBarIcon: ({ color, focused }) => (
                         <CalendarRange color={color} size={24} style={focused ? { opacity: 1 } : { opacity: 0.7 }} />
+                    )
+                }} 
+            />
+            <Tabs.Screen 
+                name="(tabs)/stats/index" 
+                options={{ 
+                    title: "Statistics", 
+                    tabBarIcon: ({ color, focused }) => (
+                        <ChartColumn color={color} size={24} style={focused ? { opacity: 1 } : { opacity: 0.7 }} />
                     )
                 }} 
             />
