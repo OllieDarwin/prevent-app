@@ -6,8 +6,6 @@ import { Link, LinkText } from "../components/ui/link";
 import { Input, InputField } from "../components/ui/input";
 import { doSignInWithEmailAndPassword, getUserRole } from "../../firebase/auth";
 
-// TODO: Add user authentication and redirect to relevant dashboard
-
 export default function Login() {
     const router = useRouter()
     const [email, setEmail] = useState("")
