@@ -17,7 +17,7 @@ export default function Login() {
         const userCredential = await doSignInWithEmailAndPassword(email, password)
         const role = await getUserRole(userCredential.user.uid)
         if (role === "user") {
-            router.replace("/user")
+            router.replace("/user/home")
         } else {
             router.replace("/doctor")
         }
